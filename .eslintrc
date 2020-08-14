@@ -1,0 +1,71 @@
+{
+  "root": true,
+  "env": { "browser": true, "es6": true, "node": true },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": { "jsx": true },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "env": { "browser": true, "es6": true, "node": true, "jest": true },
+      "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "globals": { "Atomics": "readonly", "SharedArrayBuffer": "readonly" },
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaFeatures": { "jsx": true },
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+      },
+      "plugins": [
+        "@typescript-eslint",
+        "react-hooks"
+      ],
+      "rules": {
+        "linebreak-style": ["error", "unix"],
+        "semi": ["error", "never"],
+        "quotes": ["error", "single"],
+        "comma-dangle": ["error", {
+          "arrays": "always-multiline",
+          "objects": "always-multiline",
+          "imports": "always-multiline",
+          "exports": "always-multiline",
+          "functions": "never"
+        }],
+        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/no-use-before-define": 0,
+        "@typescript-eslint/ban-ts-ignore": 0,
+        "@typescript-eslint/explicit-function-return-type": 0,
+        "@typescript-eslint/member-delimiter-style": 0,
+        "@typescript-eslint/interface-name-prefix": 0,
+        "no-non-null-assertion": 0,
+        "react/prop-types": 0,
+        "@typescript-eslint/camelcase": 0,
+        "@typescript-eslint/no-non-null-assertion": 0,
+        "@typescript-eslint/no-unused-vars": [1, {
+          "ignoreRestSiblings": true
+        }],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "@typescript-eslint/no-var-requires": 0,
+        "@typescript-eslint/no-empty-interface": 0,
+        "@typescript-eslint/triple-slash-reference": ["error", { "path": "never", "types": "always", "lib": "never" }]
+      }
+    }
+  ]
+}
