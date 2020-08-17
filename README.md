@@ -39,6 +39,19 @@ html-webpack-plugin inserts extension`s script to index.html (PWAjet entry point
 
 But extension builds as a pure js and css assets for production.
 
+### production file structure
+
+After `yarn build` complete, extension under the `build` directory can be described as:
+
+1. All emitted assets will be placed to `/assets/extensions/extension-developer-name/extension-name/`
+2. `.../css` - emitted styles for your components
+3. `.../js` - emitted scripts of your extension
+
+### What files is entry point?
+
+Or what files should be included to `pwajet.extensions` array?
+Usually, entry point and runtime chunk: look for files like `module-name.....chunk.js` and `runtime~module-name.....chunk.js`. Other scrips can be loaded on demand by webpack itself
+
 ### src/index.ts
 
 It's your main entry point. Make sure it doesn't contain heavy imports and much logic. This file will be included to PWAjet on bootstrap. So it may make app to work slow.
