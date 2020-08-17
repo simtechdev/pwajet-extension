@@ -1,4 +1,4 @@
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const address = require('address');
 const path = require('path');
 const url = require('url');
@@ -51,7 +51,7 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   output: {
-    path: path.resolve(__dirname, 'dev'),
+    path: path.resolve(__dirname, 'build'),
   },
   module: {
     rules: [
@@ -72,16 +72,18 @@ module.exports = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      inject: 'html',
-    }),
-    new CopyPlugin([
-      {
+    new CopyPlugin({
+      patterns: [{
         from: 'public',
-        ignore: ['index.html']
-      },
-    ]),
+        globOptions: {
+          ignore: ['**/index.html']
+        }
+      }]
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public/index.html'),
+      inject: true,
+    }),
   ],
   devServer: {
     before: function(app, server) {
@@ -90,7 +92,7 @@ module.exports = merge(common, {
         lanUrlForTerminal: prettyPrintUrl(lanUrlForConfig, server.options)
       })
     },
-    contentBase: './dev',
+    contentBase: 'build',
     watchContentBase: true,
     historyApiFallback: {
       disableDotRule: true,

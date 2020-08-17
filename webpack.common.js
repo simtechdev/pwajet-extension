@@ -5,17 +5,21 @@ const config = require('./module.config');
 module.exports = {
   stats: 'minimal',
   entry: {
-    app: './src/index.tsx',
+    [config.name]: './src/index.tsx',
   },
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: `assets/extensions/${config.vendor}/${config.name}/js/${config.name}.${config.version}.js`,
+    filename: `assets/extensions/${config.vendor}/${config.name}/js/[name].[hash:8].js`,
     chunkFilename: `assets/extensions/${config.vendor}/${config.name}/js/[name].[hash:8].chunk.js`,
     publicPath: '/',
   },
   externals: {
     'react': 'React',
     'ReactDOM': 'react-dom',
+    /**
+     * To ability `import pwajet from 'pwajet'`
+     */
+    'pwajet': 'pwajet',
   },
   module: {
     rules: [
@@ -69,5 +73,23 @@ module.exports = {
   },
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ],
+  },
+  optimization: {
+    runtimeChunk: {
+      name: entrypoint => `runtime~${entrypoint.name}`
+    },
+    splitChunks: {
+      cacheGroups: {
+        common: {
+          maxSize: 3e+5,
+          name: 'common',
+          minChunks: 2,
+          chunks: 'async',
+          priority: 10,
+          reuseExistingChunk: true,
+          enforce: true,
+        }
+      },
+    },
   },
 };

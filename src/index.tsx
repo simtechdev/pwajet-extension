@@ -1,5 +1,6 @@
-import './publicPathResover'
+import './publicPathResolver'
 import React from 'react'
+import pwajet from 'pwajet'
 
 const ProductCode = React.lazy(() => import('./components/product-code/ProductCode'))
 
@@ -8,11 +9,11 @@ const productCode = (props: any) => (
     <ProductCode {...props} />
   </React.Suspense>
 )
-
+console.log('connected asd dd dd')
 const init = () => {
   console.log('init called')
-  window.addEventListener<any>('render-element.product/grid-item/ProductGridItem', (event: CustomEvent) => {
-    event.detail.appendTo('div.b-product-grid-item__body', productCode)
+  pwajet.core.renderSubscriber.on('render-element.product/grid-item/ProductGridItem', event => {
+    event.appendTo('div.b-product-grid-item__body', productCode)
   })
 }
 
