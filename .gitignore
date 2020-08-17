@@ -65,3 +65,4 @@ resources/signing
 .vscode/*
 !*.code-snippets
 .VSCodeCounter
+src/pwajet.d.ts
