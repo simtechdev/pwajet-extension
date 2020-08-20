@@ -1,10 +1,10 @@
-const package = require('./package.json')
+const npmConfig = require('./package.json')
 
 module.exports = {
   /**
    * Version
    */
-  version: package.version,
+  version: npmConfig.version,
   /**
    * Company name - without special chars,
    * one or several words splitted by dash
