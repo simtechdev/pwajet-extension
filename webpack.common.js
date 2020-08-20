@@ -1,6 +1,7 @@
 const path = require('path');
 const babelPluginJsxOwner = require('babel-plugin-jsx-owner').default;
 const config = require('./module.config');
+const { camelCase } = require('lodash');
 
 module.exports = {
   stats: 'minimal',
@@ -12,6 +13,7 @@ module.exports = {
     filename: `assets/extensions/${config.vendor}/${config.name}/js/[name].[hash:8].js`,
     chunkFilename: `assets/extensions/${config.vendor}/${config.name}/js/[name].[hash:8].chunk.js`,
     publicPath: '/',
+    jsonpFunction: camelCase(`${config.vendor}-${config.name}Jsonp`)
   },
   externals: {
     'react': 'React',
