@@ -55,3 +55,7 @@ Usually, entry point and runtime chunk: look for files like `module-name.....chu
 
 It's your main entry point. Make sure it doesn't contain heavy imports and much logic. This file will be included in the PWAjet app on bootstrap. So it may make the app work slow.
 The best way to optimize it - is to take all imports as dynamic (lazy). Use shared API to register your promises. In this way, your chunks and dependencies will load on demand.
+
+## Credits
+
+- [Simtech Development](https://www.simtechdev.com/)
