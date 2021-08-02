@@ -1,0 +1,198 @@
+{
+	// Place your cscart-spa workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+	// Placeholders with the same ids are connected.
+	// Example:
+	"Create React component": {
+		"scope": "typescriptreact",
+		"prefix": "crc",
+		"body": [
+      "import React from 'react'",
+      "",
+      "import { IProps } from './I${1:Name}'",
+      "//import './${1:Name}.css'",
+      "",
+      "const $1:React.FC<IProps> = (props) => {",
+      "  return (null)",
+      "}",
+      "",
+			"export default ${1:Name}"
+		],
+		"description": "Create functional component"
+  },
+  "Create component props": {
+		"scope": "typescript, typescriptreact",
+		"prefix": "crcp",
+		"body": [
+      "export interface IOwnProps {",
+        "$1",
+      "}",
+      "",
+      "export type IProps = IOwnProps",
+      ""
+		],
+		"description": "Create props for a component"
+  },
+  "Create component props with state": {
+		"scope": "typescript, typescriptreact",
+		"prefix": "crcps",
+		"body": [
+      "export interface IOwnProps {",
+      "}",
+      "",
+      "export interface IStateProps {",
+      "}",
+      "",
+      "export interface IDispatchProps {",
+      "}",
+      "",
+      "export type IProps = IOwnProps & IStateProps & IDispatchProps;",
+      "",
+		],
+		"description": "Create props for a component"
+  },
+  "Create React component test": {
+		"scope": "typescriptreact",
+		"prefix": "crct",
+		"body": [
+      "import React from 'react'",
+      "import '@testing-library/jest-dom'",
+      "import { render, waitFor, screen, fireEvent } from '@testing-library/react'",
+      "import { MemoryRouter } from 'react-router'",
+      "import { IntlProvider } from 'react-intl'",
+      "import { Provider } from 'react-redux'",
+      "",
+      "",
+      "import $1, { IProps } from './${1:Name}'",
+      "",
+      "const setup = (customProps?: Partial<IProps>) => {",
+      "  const props = {",
+      "   ...{",
+      "      some: ?,",
+      "    },",
+      "    ...customProps",
+      "  }",
+      "",
+      "  const { children, ...rest } = props;",
+      "",
+      "  return {",
+      "    wrapper: render(",
+      "      <Provider store={store}>",
+      "        <MemoryRouter>",
+      "          <IntlProvider locale='en'>",
+      "            <${1:Name} {...rest}>{children}</${1:Name}>",
+      "          </IntlProvider>",
+      "        </MemoryRouter>",
+      "      </Provider>",
+      "    ),",
+      "    props: props",
+      "  }",
+      "}",
+      "",
+      "describe('${1:Name} component', () => {",
+      "  it('Render defaults', () => {",
+      "    const { wrapper } = setup();",
+      "    expect(screen.getByText(messages.wrongCredentials.defaultMessage)).toBeInTheDocument()",
+      "  })",
+      "})"
+		],
+		"description": "Create test for a component"
+  },
+  "Create entity class": {
+		"scope": "typescript",
+		"prefix": "cec",
+		"body": [
+      "import I$1 from './I${1:Name}'",
+      "",
+      "class ${1:Name} implements I${1:Name} {",
+      "}",
+      "",
+      "export default ${1:Name}",
+		],
+		"description": "Create class for some entity"
+  },
+  "Create factory": {
+		"scope": "typescript",
+		"prefix": "cf",
+		"body": [
+      "export interface I${1:Name}Factory {",
+      "}",
+      "",
+      "const create${1:Name} = (${2:name}Data: I${1:Name}Factory): ${1:Name} => {",
+      "  const defaults = {",
+      "  };",
+      "",
+      "  const ${2:name} = {",
+      "    ...defaults,",
+      "    ...${2:name}Data,",
+      "  };",
+      "",
+      "  return new ${1:Name}(${2:name})",
+      "}",
+      "",
+      "export default create${1:Name}",
+		],
+		"description": "Create class for some entity"
+  },
+  "Create entity interface": {
+		"scope": "typescript",
+		"prefix": "cei",
+		"body": [
+      "interface I${1:Name} {",
+      "}",
+      "",
+      "export default I${1:Name}",
+		],
+		"description": "Create interface for class entity"
+  },
+  "Create react component redux wrapper": {
+		"scope": "typescriptreact",
+		"prefix": "crcc",
+		"body": [
+      "import { Dispatch } from 'redux'",
+      "import { connect } from 'react-redux'",
+      "",
+      "import ${1:Name} from './${1:Name}'",
+      "import * as actions from '../../redux/actions'",
+      "import { StoreState } from '../../redux/types'",
+      "",
+      "import { IStateProps, IDispatchProps, IOwnProps } from './I${1:Name}'",
+      "",
+      "function mapStateToProps(state: StoreState, ownProps: IOwnProps): IStateProps {",
+      "  return {",
+      "  };",
+      "}",
+      "",
+      "function mapDispatchToProps(dispatch: Dispatch<actions.>): IDispatchProps {",
+      "  return {",
+      "  };",
+      "}",
+      "",
+      "export default connect<IStateProps, IDispatchProps, IOwnProps, StoreState>(",
+      "  mapStateToProps,",
+      "  mapDispatchToProps",
+      ")(${1:Name});",
+      "",
+		]
+  },
+  "Create react component messages": {
+		"scope": "typescript",
+		"prefix": "crcm",
+		"body": [
+      "import { defineMessages,  } from 'react-intl'",
+      "",
+      "const messages = {",
+      "  title: {",
+      "    id: 'app.screens.wishlist.title',",
+      "    defaultMessage: 'Wishlist',",
+      "  },",
+      "}",
+      "",
+      "export default defineMessages(messages)",
+      ""
+		],
+  },
+}

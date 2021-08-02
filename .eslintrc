@@ -30,7 +30,11 @@
         "ecmaFeatures": { "jsx": true },
         "ecmaVersion": 2018,
         "sourceType": "module",
-        "project": "./tsconfig.json"
+        // "project": "./tsconfig.json"
+        "project": [
+          "./tsconfig.json",
+          "./extensions/tsconfig.json"
+        ]
       },
       "plugins": [
         "@typescript-eslint",
@@ -60,6 +64,9 @@
         "@typescript-eslint/no-unused-vars": [1, {
           "ignoreRestSiblings": true
         }],
+        // TODO: enable this rule
+        "@typescript-eslint/explicit-module-boundary-types": [0],
+        "@typescript-eslint/ban-ts-comment": 0,
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "@typescript-eslint/no-var-requires": 0,

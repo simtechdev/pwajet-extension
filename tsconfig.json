@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2019",
     "lib": [
       "dom",
       "dom.iterable",
@@ -21,5 +21,10 @@
   },
   "include": [
     "src",
+    "__mocks__",
+    "./public/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

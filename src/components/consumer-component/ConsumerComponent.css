@@ -1,0 +1,7 @@
+.b-consumer-component {
+  color: var(--primary-color);
+  padding: var(--common-padding);
+  border: 1px solid var(--border-color);
+  background: var(--background-color);
+  border-radius: var(--border-radius);
+}
