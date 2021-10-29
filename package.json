@@ -1,17 +1,21 @@
 {
-  "name": "noname-example-addon",
-  "version": "1.0.1",
+  "name": "pwajet-example-addon",
+  "homepage": "https://github.com/simtechdev/pwajet-extension",
+  "version": "1.4.1",
   "license": "MIT",
   "private": true,
+  "pwajet": {
+    "company": "simtechdev"
+  },
   "scripts": {
     "start": "yarn rollup --config ./rollup.config.js -w",
-    "prebuild": "yarn emit-types",
+    "postbuild": "yarn emit-types",
     "build": "yarn rollup --config ./rollup.config.js --environment NODE_ENV:production",
     "types": "yarn tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --onlyChanged --collectCoverage --runInBand --watch",
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc",
-    "emit-types": "yarn tsc --project tsconfig.internals.json"
+    "emit-types": "yarn ts-node --project=tools/tsconfig.json tools/build-types.ts"
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",
@@ -45,7 +49,7 @@
     "babel-loader": "^8.1.0",
     "babel-plugin-jsx-owner": "^0.11.1",
     "css-loader": "^5.0.1",
-    "cssnano": "^4.1.10",
+    "cssnano": "^5.0.8",
     "eslint": "^7.18.0",
     "eslint-loader": "^4.0.0",
     "eslint-plugin-react": "^7.22.0",
@@ -93,7 +97,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn ct --check"
+      "pre-commit": "lint-staged && yarn types"
     }
   },
   "lint-staged": {
