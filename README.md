@@ -18,6 +18,8 @@ Start your extension with this scaffold.
 1. Once you have a PWAjet installed, get all its content from the root directory (yes - just compiled statics)
 2. Create `public` folder at the root of your extension project
 3. Copy all files from 1. to `public`
+4. Set up name, company name and version at `package.json`
+   1. name should start with `pwajet-` prefix. Like `pwajet-sd-labels`.
 5. Run `yarn` and `yarn start`
 6. Done!
 

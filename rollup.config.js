@@ -15,15 +15,14 @@ import replace from '@rollup/plugin-replace'
 import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
 import packageConfig from './package.json'
+import entries from './entries'
 
-// Replace with your company name
-const VENDOR_ID = 'noname'
-// Replace with your addon name
-const EXTENSION_ID = 'example-addon'
+const vendorId    = packageConfig.pwajet.company
+const extensionId = packageConfig.name
 
 const isProduction = process.env.NODE_ENV === 'production'
 const BUILD_DESTINATION = isProduction ? 'build' : 'public'
-const CORE_EXTENSIONS_PATH = `assets/extensions/${VENDOR_ID}/${EXTENSION_ID}`
+const CORE_EXTENSIONS_PATH = `assets/extensions/${vendorId}/${extensionId}`
 const BUILD_PATH = `./${BUILD_DESTINATION}/${CORE_EXTENSIONS_PATH}`
 const ENTRY_PATH = `./${BUILD_DESTINATION}/assets/extensions`
 
@@ -74,38 +73,51 @@ const plugins = [
         src: `${BUILD_PATH}/extensions-files.js`,
         dest: `${ENTRY_PATH}/`
       },
-      {
-        src: `${BUILD_PATH}/${VENDOR_ID}-${EXTENSION_ID}.d.ts`,
-        dest: `${ENTRY_PATH}/`
-      }
     ],
     hook: 'closeBundle'
   }),
-  externalGlobals({
-    'react': 'window.React',
-    'react-dom': 'window.ReactDOM',
-    'redux': 'window.redux',
-    'react-redux': 'window.reactRedux',
-    'pwajet': 'window.pwajet',
-    'pwajet_mf': 'window.pwajet_mf',
-    'react-intl': 'window.intl',
-    'react-router': 'window.reactRouter',
-    'react-router-dom': 'window.reactRouterDom',
-    'rxjs': 'window.rxjs',
-    'redux-observable': 'window.reduxObservable',
+  externalGlobals((id) => {
+    if (id === 'react') {
+      return 'window.React'
+    }
+    if (id === 'react-dom') {
+      return 'window.ReactDOM'
+    }
+    if (id === 'redux') {
+      return 'window.redux'
+    }
+    if (id === 'react-redux') {
+      return 'window.reactRedux'
+    }
+    if (id === 'pwajet') {
+      return 'window.pwajet'
+    }
+    if (id === 'pwajet_mf') {
+      return 'window.pwajet_mf'
+    }
+    if (id === 'react-intl') {
+      return 'window.intl'
+    }
+    if (id === 'react-router') {
+      return 'window.reactRouter'
+    }
+    if (id === 'react-router-dom') {
+      return 'window.reactRouterDom'
+    }
+    if (id === 'rxjs') {
+      return 'window.rxjs'
+    }
+    if (id === 'redux-observable') {
+      return 'window.reduxObservable'
+    }
 
-    // consume webpack module federation
-    '@pwajet/entities/error/factories/apiErrorFactory':
-      "window.pwajet_mf.get('./entities/error/factories/apiErrorFactory')",
+    if (/@pwajet\//.test(id)) {
+      return `window.pwajet_mf.get('${id.replace('@pwajet', '.')}')`
+    }
 
-    '@pwajet/api/parser/cscart/FormSchema':
-      "window.pwajet_mf.get('./api/parser/cscart/FormSchema')",
-
-    '@pwajet/entities/form/factories/formSchemaFactory':
-      "window.pwajet_mf.get('./entities/form/factories/formSchemaFactory')",
-
-    '@pwajet/utils/notifications/messages':
-      "window.pwajet_mf.get('./utils/notifications/messages')",
+    if (id.startsWith('pwajet-')) {
+      return `window.pwajet.core.extensionApiService.getApi('${id}')`
+    }
   }, {
     dynamicWrapper: (id) => {
 
@@ -121,7 +133,10 @@ const plugins = [
     'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development' )
   }),
   multiInput(),
-  isProduction && terser(),
+  isProduction && terser({
+    // Keep react components names
+    keep_fnames: /[A-Z]\w+/
+  }),
   !isProduction && serve({
     contentBase: 'public',
     historyApiFallback: true,
@@ -133,14 +148,9 @@ const plugins = [
 
 export default () => {
   return {
-    input: [
-      /**
-       * RenderSubscriber is a required postfix
-       */
-      {exampleAddonRenderSubscriber: `./src/index.tsx`},
-      {exampleAddonNewRenderSubscriber: `./src/index-2.tsx`},
-      {[`${VENDOR_ID}-${EXTENSION_ID}InternalApi`]: `./src/internals.ts`},
-    ],
+    input: entries({ options: {vendorId, extensionId} }).map(entry => ({
+      [entry.name]: entry.file,
+    })),
     output: {
       dir: BUILD_PATH,
       entryFileNames: `${packageConfig.version}.[hash].[name].js`,
@@ -175,7 +185,7 @@ function composeBuildInstructionTemplate() {
     const assets = files.js.map(file => `window.publicPath + '${CORE_EXTENSIONS_PATH}/${file.fileName}'`)
 
     return (
-      `# PWAjet extension: ${VENDOR_ID}: ${EXTENSION_ID} \n\n` +
+      `# PWAjet extension: ${vendorId}: ${extensionId} \n\n` +
       `## Insert this lines at \`extensions-files.js\`\n\n` +
       assets.map(asset => `* \`${asset}\``).join('\n') +
       '\n\n' +
