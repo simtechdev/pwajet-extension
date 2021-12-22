@@ -59,7 +59,7 @@ const plugins = [
   }),
   !isProduction && html({
     hook: 'closeBundle',
-    fileName: `extensions-files.js`,
+    fileName: `esm-extensions.js`,
     template: composeExtensionsFilesTemplate()
   }),
   isProduction && html({
@@ -70,7 +70,7 @@ const plugins = [
   copy({
     targets: [
       {
-        src: `${BUILD_PATH}/extensions-files.js`,
+        src: `${BUILD_PATH}/esm-extensions.js`,
         dest: `${ENTRY_PATH}/`
       },
     ],
@@ -155,6 +155,7 @@ export default () => {
       dir: BUILD_PATH,
       entryFileNames: `${packageConfig.version}.[hash].[name].js`,
       format: 'esm',
+      chunkFileNames: 'chunks/[name]-[hash].js'
     },
     plugins,
   }
