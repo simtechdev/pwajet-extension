@@ -16,6 +16,7 @@ import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
 import packageConfig from './package.json'
 import entries from './entries'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 const vendorId    = packageConfig.pwajet.company
 const extensionId = packageConfig.name
@@ -143,6 +144,10 @@ const plugins = [
   }),
   !isProduction && livereload({
     watch: 'public',
+  }),
+  isProduction && visualizer({
+    filename: 'rollup-visualizer.html',
+    open: true,
   }),
 ];
 
