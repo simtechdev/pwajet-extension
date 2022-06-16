@@ -16,6 +16,7 @@ import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
 import packageConfig from './package.json'
 import entries from './entries'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 const vendorId    = packageConfig.pwajet.company
 const extensionId = packageConfig.name
@@ -144,6 +145,10 @@ const plugins = [
   !isProduction && livereload({
     watch: 'public',
   }),
+  isProduction && visualizer({
+    filename: 'rollup-visualizer.html',
+    open: true,
+  }),
 ];
 
 export default () => {
@@ -162,7 +167,7 @@ export default () => {
 }
 
 function composeExtensionsFilesTemplate() {
-  const content = fs.readFileSync(`${ENTRY_PATH}/extensions-files.js`, {encoding: 'utf-8'})
+  const content = fs.readFileSync(`${ENTRY_PATH}/esm-extensions.js`, {encoding: 'utf-8'})
   const startDelimiter = `/*insert-code-start*/`
   const endDelimiter = `/*insert-code-end*/`
   const startDelimiterRegExp = startDelimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -187,7 +192,7 @@ function composeBuildInstructionTemplate() {
 
     return (
       `# PWAjet extension: ${vendorId}: ${extensionId} \n\n` +
-      `## Insert this lines at \`extensions-files.js\`\n\n` +
+      `## Insert this lines at \`esm-extensions.js\`\n\n` +
       assets.map(asset => `* \`${asset}\``).join('\n') +
       '\n\n' +
       `Like the following:\n` +

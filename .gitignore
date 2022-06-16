@@ -25,6 +25,7 @@ public/
 .env.production.local
 .env.dev.json
 .env.json
+rollup-visualizer.html
 
 npm-debug.log*
 yarn-debug.log*
