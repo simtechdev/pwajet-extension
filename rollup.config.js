@@ -117,7 +117,7 @@ const plugins = [
     }
 
     if (id.startsWith('pwajet-')) {
-      return `window.pwajet.core.extensionApiService.getApi('${id}')`
+      return `(await window.pwajet.core.extensionApiService.getApi('${id}'))`
     }
   }, {
     dynamicWrapper: (id) => {
